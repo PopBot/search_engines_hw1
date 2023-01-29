@@ -18,12 +18,13 @@ class SearchEngine:
     @staticmethod
     def search(query, should_sleep=True):
         start_time = time.time()
-        print('\n\nPROCESSING QUERY: ' + query)
+        sleep_time = randint(20, 40)
         url = YAHOO_SEARCH_ENDPOINT + '+'.join(query.split()) + '&n=30'
         print('URL: ' + url)
+        print('SLEEP TIME: ' + str(sleep_time) + ' seconds')
         if should_sleep:
-            time.sleep(randint(20, 40))
-
+            time.sleep(sleep_time)
+        print('\n\nPROCESSING QUERY: ' + query)
         soup = BeautifulSoup(requests.get(url, headers=USER_AGENT).text, "lxml")
         new_results = SearchEngine.scrape_search_result(soup)
         end_time = time.time()
