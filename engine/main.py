@@ -42,11 +42,11 @@ def run():
     total = count_number_of_items_in_multidimensional_list(lines_to_process)
     page_index = 0
     for page in lines_to_process:
-        if page_index == 2:
+        if page_index == 5:
             i = 0
             for query in page:
                 i += 1
-                if i > 5:
+                if i > 0:
                     results = SearchEngine.search(query)
                     print(results)
                     res = {query: results}
