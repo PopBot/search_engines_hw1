@@ -22,7 +22,7 @@ class SearchEngine:
         url = YAHOO_SEARCH_ENDPOINT + '+'.join(query.split()) + '&n=30'
         print('URL: ' + url)
         if should_sleep:
-            time.sleep(randint(10, 100))
+            time.sleep(300)
 
         soup = BeautifulSoup(requests.get(url, headers=USER_AGENT).text, "lxml")
         new_results = SearchEngine.scrape_search_result(soup)
