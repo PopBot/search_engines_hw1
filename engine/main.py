@@ -42,7 +42,7 @@ def run():
     total = count_number_of_items_in_multidimensional_list(lines_to_process)
     page_index = 0
     for page in lines_to_process:
-        if page_index == 8:
+        if page_index == 9:
             i = 0
             for query in page:
                 i += 1
