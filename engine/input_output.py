@@ -30,14 +30,19 @@ def get_absolute_file_path_for_relative_file(file_name):
 
 def open_json_file_and_append_json(absolute_file_path, dict_json_to_append):
     if not os.path.isfile(absolute_file_path):
-        with open(absolute_file_path, 'r') as f:
+        with open(absolute_file_path, 'w') as f:
             json.dump(dict_json_to_append, f, indent=4)
             f.close()
     else:
         with open(absolute_file_path, 'r') as f:
             data = json.load(f)
+            # Check if there is already a key with the same name
+            for key in dict_json_to_append.keys():
+                if key in data.keys():
+                    return
             data.update(dict_json_to_append)
             with open(absolute_file_path, 'w') as wr:
+
                 json.dump(data, wr, indent=4)
                 wr.close()
             f.close()

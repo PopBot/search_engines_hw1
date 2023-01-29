@@ -45,7 +45,7 @@ def generate_diff(x: list[str], y: list[str]) -> list[int]:
     diff = []
 
     for i in range(len(x)):
-        if x[i] in y:
+        if x[i].lower() in [u.lower() for u in y]:
             diff.append(y.index(x[i]) - i)
     return diff
 

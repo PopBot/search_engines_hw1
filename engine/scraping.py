@@ -3,7 +3,6 @@ import time
 import requests
 from urllib.parse import urlparse
 import urllib
-from random import randint
 
 
 USER_AGENT = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'}
@@ -22,7 +21,7 @@ class SearchEngine:
         url = YAHOO_SEARCH_ENDPOINT + '+'.join(query.split()) + '&n=30'
         print('URL: ' + url)
         if should_sleep:
-            time.sleep(300)
+            time.sleep(60)
 
         soup = BeautifulSoup(requests.get(url, headers=USER_AGENT).text, "lxml")
         new_results = SearchEngine.scrape_search_result(soup)
@@ -79,4 +78,8 @@ def parse_base_url_path_parameters_query_more(url_string: str) -> str:
     # url_string is a string
     # returns a string
     url = urlparse(str(url_string))
-    return url.netloc + url.path + url.params + url.query
+    parsed_url = url.netloc + url.path + url.params + url.query
+    # If there is a trailing /, remove it
+    if parsed_url.endswith("/"):
+        parsed_url = parsed_url[:-1]
+    return parsed_url

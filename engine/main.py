@@ -40,14 +40,20 @@ def run():
     count_processed = 0
     lines_to_process = batch_process_file_line_by_line(file_path, 10)
     total = count_number_of_items_in_multidimensional_list(lines_to_process)
+    page_index = 0
     for page in lines_to_process:
-        for query in page:
-            results = SearchEngine.search(query)
-            print(results)
-            res = {query: results}
-            open_json_file_and_append_json(output_absolute_file_path, res)
-            count_processed += 1
-            print(f"Processed {count_processed} out of {total} queries")
+        if page_index == 2:
+            i = 0
+            for query in page:
+                i += 1
+                if i > 5:
+                    results = SearchEngine.search(query)
+                    print(results)
+                    res = {query: results}
+                    open_json_file_and_append_json(output_absolute_file_path, res)
+                    count_processed += 1
+                    print(f"Processed {count_processed} out of {total} queries")
+        page_index += 1
 
 
 if __name__ == '__main__':
