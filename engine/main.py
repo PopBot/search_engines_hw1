@@ -3,6 +3,8 @@ from input_output import *
 import logging
 import os
 
+from calculate import *
+
 
 FILE = "100QueriesSet2.txt"
 
@@ -56,5 +58,10 @@ def run():
         page_index += 1
 
 
+def analyze():
+    print("analyze")
+    print(batch_read_file_line_by_line(output_absolute_file_path, 10, 0))
+
+
 if __name__ == '__main__':
-    run()
+    process_queries()

@@ -43,9 +43,11 @@ def generate_diff(x: list[str], y: list[str]) -> list[int]:
     # x and y are lists of strings
     # returns a list of integers
     diff = []
+    lowercase_x = [u.lower() for u in x]
+    lowercase_y = [u.lower() for u in y]
 
     for i in range(len(x)):
-        if x[i].lower() in [u.lower() for u in y]:
+        if lowercase_x[i] in lowercase_y:
             diff.append(y.index(x[i]) - i)
     return diff
 
@@ -82,10 +84,27 @@ def process_queries():
     # Read the results from the files
     yahoo_results_data = json.load(open(yahoo_results))
     google_results_data = json.load(open(google_results))
+
+    print("Yahoo Results: ", yahoo_results_data.keys())
+    print("Google Results: ", google_results_data.keys())
+    print("\n\n")
     for query in google_results_data.keys():
+        print('QUERY: ' + query)
         index += 1
         google_data = google_results_data[query]
+        google_data = [parse_base_url_path_parameters_query_more(url) for url in google_data]
+        # Remove www. from the URLs if it exists
+        google_data = [url.replace("www.", "") for url in google_data]
+        # Make all URLs lowercase
+        google_data = [url.lower() for url in google_data]
+        print("Google Data: ", str(google_data))
         yahoo_data = yahoo_results_data[query]
+        yahoo_data = [parse_base_url_path_parameters_query_more(url) for url in yahoo_data]
+        # Remove www. from the URLs if it exists
+        yahoo_data = [url.replace("www.", "") for url in yahoo_data]
+        # Make all URLs lowercase
+        yahoo_data = [url.lower() for url in yahoo_data]
+        print("Yahoo Data: ", str(yahoo_data))
         count_matches, percent_overlap, spearman_coefficient = get_results(google_data, yahoo_data)
         average_percentage_data.append(percent_overlap)
         average_count_matches_data.append(count_matches)
