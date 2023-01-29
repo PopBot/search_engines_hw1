@@ -18,16 +18,16 @@ class SearchEngine:
     @staticmethod
     def search(query, should_sleep=True):
         start_time = time.time()
-        print('PROCESSING QUERY: ' + query)
-        url = YAHOO_SEARCH_ENDPOINT + '+'.join(query.split())  # Limit to 30 results
+        print('\n\nPROCESSING QUERY: ' + query)
+        url = YAHOO_SEARCH_ENDPOINT + '+'.join(query.split()) + '&n=30'
         print('URL: ' + url)
         if should_sleep:
-            time.sleep(randint(10, 20))
+            time.sleep(randint(10, 100))
 
         soup = BeautifulSoup(requests.get(url, headers=USER_AGENT).text, "lxml")
         new_results = SearchEngine.scrape_search_result(soup)
         end_time = time.time()
-        print('\n\nTIME TAKEN: ' + str(end_time - start_time) + ' seconds\n\n')
+        print('TIME TAKEN: ' + str(end_time - start_time) + ' seconds')
         return new_results
 
     @staticmethod
@@ -37,15 +37,12 @@ class SearchEngine:
         # print(raw_results)
         results = []
         count_found = 0
-        print('RAW RESULTS: ' + str(raw_results))
         for result in raw_results:
             # print(result)
             # get the url from the result
             link = result.get('href')
             link = '/'.join(link.split('/')[7:])
             link = urllib.parse.unquote(link)
-
-            print('LINK: ' + link)
             # If the link starts with "RU=", remove "RU="
             if link.startswith("RU="):
                 link = link[3:]
@@ -69,7 +66,6 @@ class SearchEngine:
             # If there is a trailing slash, remove it
             if base_url.endswith("/"):
                 base_url = base_url[:-1]
-            print(base_url)
             if base_url not in results:
                 results.append(base_url)
                 count_found += 1
