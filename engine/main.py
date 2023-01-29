@@ -1,78 +1,31 @@
-import time
+from scraping import SearchEngine
+from input_output import *
+import logging
+import os
 
 
-def spearmans_rank_correlation_coefficient(x, y):
-    # x and y are lists of numbers of the same length
-    # returns the Spearman's rank correlation coefficient
-    # between x and y
-    # https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient
-    x_rank = rank(x)
-    y_rank = rank(y)
-    return pearsons_correlation_coefficient(x_rank, y_rank)
+FILE = "100QueriesSet2.txt"
 
 
-def rank(x):
-    # x is a list of numbers
-    # returns a list of ranks of the numbers in x
-    # https://en.wikipedia.org/wiki/Ranking
-    sorted_x = sorted(x)
-    rank = []
-    for i in range(len(x)):
-        rank.append(sorted_x.index(x[i]) + 1)
-    return rank
+def main():
+    output_absolute_file_path = os.path.join(os.path.dirname(__file__) + "/results.json")
+    file_path = get_absolute_file_path_for_relative_file(FILE)
+    results = {}
+    queries = read_file_line_by_line(file_path)
+    for query in queries:
+        results[query] = SearchEngine.search(query)
+    write_dict_to_json_file(output_absolute_file_path, results)
+    logging.info("Done!")
 
 
-def pearsons_correlation_coefficient(x, y):
-    # x and y are lists of numbers of the same length
-    # returns the Pearson's correlation coefficient
-    # between x and y
-    # https://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient
-    n = len(x)
-    sum_x = sum(x)
-    sum_y = sum(y)
-    sum_x_squared = sum([i ** 2 for i in x])
-    sum_y_squared = sum([i ** 2 for i in y])
-    psum = sum([x[i] * y[i] for i in range(n)])
-    num = psum - (sum_x * sum_y / n)
-    den = ((sum_x_squared - sum_x ** 2 / n) * (sum_y_squared - sum_y ** 2 / n)) ** .5
-    if den == 0:
-        return 0
-    return num / den
+def test():
+    query = 'chicken'
+    results = SearchEngine.search(query)
+    print(results)
+    res = {query: results}
+    output_absolute_file_path = os.path.join(os.path.dirname(__file__) + "/results.json")
+    write_dict_to_json_file(output_absolute_file_path, res)
 
 
-def calculate_spearman_rank_coefficient():
-    pass
-
-
-def calculate_difference(x, y):
-    return x - y
-
-
-def calculate_d_squared(difference):
-    return difference ** 2
-
-
-def calculate_denominator(count: int):
-    return count * (count ** 2 - 1)
-
-
-def generate_diff(x: list[str], y: list[str]) -> list[int]:
-    # Given two lists of strings, compare the indices of matching strings from x to y
-    # and return a list of the differences in indices. Only use matching strings.
-    # x and y are lists of strings
-    # returns a list of integers
-    diff = []
-    for i in range(len(x)):
-        if x[i] in y:
-            diff.append(y.index(x[i]) - i)
-    return diff
-
-
-def delay(count_seconds):
-    # count_seconds is an integer
-    # returns nothing
-    # delays the program for count_seconds seconds
-    time.sleep(count_seconds)
-
-
-YAHOO_SEARCH_URL = "https://search.yahoo.com/search?p="
+if __name__ == '__main__':
+    test()
