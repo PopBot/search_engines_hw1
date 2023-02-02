@@ -1,0 +1,23 @@
+Jarod Wong
+Student #: 1195411625
+jarodwon@usc.edu
+
+
+Assignment Notes:
+I used the Yahoo search engine because my student number ended in "25".
+For each Yahoo search query, I appended "&n=30" (as directed in the assignment specification) to the end of the URL to retrieve 30 results per page.
+I used the selector: soup.find_all("a", attrs={"class": "d-ib fz-20 lh-26 td-hu tc va-bot mxw-100p"}) for parsing my BeautifulSoup data from the search request.
+I actually inspected the Yahoo search results that is how I determined the selector filtering I should use. It filters away advertisement URLs, and just gets the search results.
+There seemed to only be about 6-7 maximum results returned from Yahoo. The assignment specification said to just use that data and not paginate.
+I had to use a VPN and constantly switch IP addresses because Yahoo search would whitelist my IP address after a few calls. This meant I had to break up the retrieval of data.
+The repo for my work on the assignment can be found here: https://github.com/PopBot/search_engines_hw1
+
+
+In all, the results of "our experiment" showed that there isn't much correlation between Google and Yahoo search engine page ranks.
+I calculated there was an average of 1.76 overlapping search results (or a 17.6% overlap rate) between the two search engines. I believe this number would be higher though, if the Yahoo ones would return more than the max 7 it did.
+I calculated the average Separman coefficient to two hundreds to be -3.75. This means that the two search engines are not correlated at all.
+According to the Wikipedia page on the Spearman rank correlation coefficient, "A negative Spearman correlation coefficient corresponds to a decreasing monotonic trend between X and Y" (https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient).
+Again, I expect this number to be higher (more to the positive side) if the Yahoo search results properly returned 10 results.
+
+Average Spearman Coefficient: -3.75
+Average Percent Overlap: 17.6%
